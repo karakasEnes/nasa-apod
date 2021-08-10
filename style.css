@@ -22,6 +22,16 @@ body {
 
 /* Loader */
 
+.loader {
+  background: whitesmoke;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* Navigation */
 .navigation-container {
@@ -40,13 +50,10 @@ body {
   right: 0;
   width: 100%;
   height: 60px;
-
 }
-
 
 /* Images Container */
 .images-container {
-
   margin-top: 50px;
 }
 
@@ -62,8 +69,6 @@ body {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-
-
 .card-body {
   padding: 20px;
 }
@@ -72,8 +77,6 @@ body {
   margin: 10px auto;
   font-size: 24px;
 }
-
-
 
 /* Save Confirmation */
 .save-confirmed {
@@ -89,19 +92,18 @@ body {
 
 /* Hidden */
 
+.hidden {
+  display: none;
+}
 
 /* Large Smartphone (Vertical) */
 @media screen and (max-width: 800px) {
   body {
     line-height: 1.4rem;
     font-size: 0.9rem;
-
   }
-
 
   .card-title {
     font-size: 20px;
   }
-
-  
 }
