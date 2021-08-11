@@ -8,10 +8,19 @@ const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${co
 let resultArray = [];
 let favorites = {};
 
-function createCards() {
-  resultArray.forEach((cardInfo) => {
+function createCards(page) {
+  const currentPage =
+    page === "favorites" ? Object.values(favorites) : resultArray;
+  currentPage.forEach((cardInfo) => {
     singleCard(cardInfo);
   });
+}
+
+function fetchLocalStorage() {
+  const localNasa = localStorage.getItem("nasaFavoriteItems");
+  if (localNasa) {
+    favorites = JSON.parse(localNasa);
+  }
 }
 
 function saveFavorite(url) {
@@ -97,11 +106,11 @@ async function fetchNasaData() {
     const response = await fetch(apiUrl);
     const data = await response.json();
     resultArray = data;
-    console.log(resultArray);
-    createCards();
+    createCards("favorites");
   } catch (err) {
     console.log(err);
   }
 }
 
+fetchLocalStorage();
 fetchNasaData();
