@@ -1,14 +1,33 @@
 const imageContainer = document.querySelector(".images-container");
+const savedConfirmed = document.querySelector(".save-confirmed");
 
 const count = 10;
 const apiKey = "DEMO_KEY";
 const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
 
 let resultArray = [];
+let favorites = {};
 
 function createCards() {
   resultArray.forEach((cardInfo) => {
     singleCard(cardInfo);
+  });
+}
+
+function saveFavorite(url) {
+  resultArray.forEach((item) => {
+    if (item.url.includes(url) && !favorites[url]) {
+      favorites[url] = item;
+
+      // added logo show 2 sec
+      savedConfirmed.hidden = false;
+
+      setTimeout(() => {
+        savedConfirmed.hidden = true;
+      }, 2000);
+    }
+
+    localStorage.setItem("nasaFavoriteItems", JSON.stringify(favorites));
   });
 }
 
@@ -42,6 +61,8 @@ function singleCard(cardInfo) {
   //clickAbleParag
   const clickAble = document.createElement("p");
   clickAble.classList.add("clickable");
+  clickAble.textContent = "Add to Favorite";
+  clickAble.setAttribute("onclick", `saveFavorite('${url}')`);
 
   //cardText
   const cardText = document.createElement("p");
