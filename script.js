@@ -1,5 +1,8 @@
 const imageContainer = document.querySelector(".images-container");
 const savedConfirmed = document.querySelector(".save-confirmed");
+const loader = document.querySelector(".loader");
+const resultsNav = document.getElementById("resultsNav");
+const favoritesNav = document.getElementById("favoritesNav");
 
 const count = 10;
 const apiKey = "DEMO_KEY";
@@ -9,11 +12,17 @@ let resultArray = [];
 let favorites = {};
 
 function createCards(page) {
+  changeNavBar(page);
   const currentArray =
     page === "favorites" ? Object.values(favorites) : resultArray;
+  imageContainer.textContent = "";
   currentArray.forEach((cardInfo) => {
     singleCard(cardInfo, page);
   });
+}
+
+function showContent() {
+  loader.classList.add("hidden");
 }
 
 function fetchLocalStorage() {
@@ -113,16 +122,30 @@ function singleCard(cardInfo, page) {
   imageContainer.appendChild(card);
 }
 
-async function fetchNasaData() {
+function changeNavBar(page) {
+  if (page === "favorites") {
+    favoritesNav.classList.remove("hidden");
+    resultsNav.classList.add("hidden");
+  } else {
+    resultsNav.classList.remove("hidden");
+    favoritesNav.classList.add("hidden");
+  }
+}
+
+async function fetchNasaData(page) {
+  loader.classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "instant" });
+
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
+    showContent();
     resultArray = data;
-    createCards("favorites");
+    createCards(page);
   } catch (err) {
     console.log(err);
   }
 }
 
-fetchLocalStorage();
+fetchLocalStorage("nasa");
 fetchNasaData();

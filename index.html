@@ -13,7 +13,7 @@
 
 <body>
     <!-- Loader -->
-    <div class="loader hidden">
+    <div class="loader">
         <img src="./rocket.svg" alt="Rocket Loader Animation">
     </div>
 
@@ -25,13 +25,13 @@
             <span class="background"></span>
             <!-- Results Nav -->
             <span class="navigation-items " id="resultsNav">
-                <h3 class="clickable" onclick="updateDOM('favorites')">Favorites</h3>
+                <h3 class="clickable" onclick="createCards('favorites')">Favorites</h3>
                 <h3>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</h3>
-                <h3 class="clickable" onclick="getNasaPictures()">Load More</h3>
+                <h3 class="clickable" onclick="fetchNasaData('nasa')">Load More</h3>
             </span>
             <!-- Favorites Nav -->
             <span class="navigation-items hidden" id="favoritesNav">
-                <h3 class="clickable" onclick="getNasaPictures()">Load More NASA Images</h3>
+                <h3 class="clickable" onclick="fetchNasaData('nasa')">Load More NASA Images</h3>
             </span>
         </div>
         <!-- Images Container -->
