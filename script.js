@@ -9,10 +9,10 @@ let resultArray = [];
 let favorites = {};
 
 function createCards(page) {
-  const currentPage =
+  const currentArray =
     page === "favorites" ? Object.values(favorites) : resultArray;
-  currentPage.forEach((cardInfo) => {
-    singleCard(cardInfo);
+  currentArray.forEach((cardInfo) => {
+    singleCard(cardInfo, page);
   });
 }
 
@@ -21,6 +21,13 @@ function fetchLocalStorage() {
   if (localNasa) {
     favorites = JSON.parse(localNasa);
   }
+}
+
+function removeFavorite(url) {
+  delete favorites[url];
+  localStorage.setItem("nasaFavoriteItems", JSON.stringify(favorites));
+  imageContainer.textContent = "";
+  createCards("favorites");
 }
 
 function saveFavorite(url) {
@@ -40,7 +47,7 @@ function saveFavorite(url) {
   });
 }
 
-function singleCard(cardInfo) {
+function singleCard(cardInfo, page) {
   const { url, title, hdurl, copyright, date, explanation } = cardInfo;
   // createCardElement add append it to "image-container"
 
@@ -70,8 +77,13 @@ function singleCard(cardInfo) {
   //clickAbleParag
   const clickAble = document.createElement("p");
   clickAble.classList.add("clickable");
-  clickAble.textContent = "Add to Favorite";
-  clickAble.setAttribute("onclick", `saveFavorite('${url}')`);
+  if (page === "favorites") {
+    clickAble.textContent = "Remove Favorite";
+    clickAble.setAttribute("onclick", `removeFavorite('${url}')`);
+  } else {
+    clickAble.textContent = "Add to Favorite";
+    clickAble.setAttribute("onclick", `saveFavorite('${url}')`);
+  }
 
   //cardText
   const cardText = document.createElement("p");
